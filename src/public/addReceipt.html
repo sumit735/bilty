@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Receipt</title>
+    <link rel="stylesheet" href="./dist/fontawesome/all.min.css" />
+    <script src="./dist/fontawesome/all.min.js"></script>
+    <link href="./dist/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="./dist/notyf/notyf.min.css" rel="stylesheet">
+    <script src="./dist/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="./dist/notyf/notyf.min.js"></script>
+    <script src="./renderer/renderrer.js"></script>
+    <script src="./renderer/addReceipt.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .customSpace {
+            width: 100%;
+            height: 10rem;
+            background-color: #079992;
+            border-radius: 0 0 5px 5px;
+        }
+        #add {
+            font-size: 1.5rem;
+            /* margin-top: 2.3rem; */
+            cursor: pointer;
+
+        }
+
+        .custom {
+            padding: 8px;
+            background: #079992;
+            color: #fff;
+            font-size: 1.3rem;
+            border-radius: 5px;
+        }
+        .icon {
+            margin-left: 1rem;
+        }
+        span {
+            margin-left: 1rem;
+        }
+        .radio {
+            display: inline;
+        }
+
+        textarea {
+            width: 100%;
+            border-top: 0px;
+            border-left: 0px;
+            border-right: 0px;
+            color: #079992;
+            font-size: 1.3rem;
+            min-height: 92px;
+            max-height: 92px;
+        }
+        textarea:focus {
+            outline: none !important;
+            border-color: #079992;
+            box-shadow: 0 0 10px #079992;
+        }
+        canvas#signature {
+            border: 2px solid black;
+        }
+        .btn-success {
+            background-color: #1dd1a1;
+        }
+
+        .btn-success:hover {
+            background-color: #10ac84;
+        }
+        .customWidth {
+            width: 20%;
+        }
+
+        .btn-warning {
+            background-color: #3498db;
+            color: #fff;
+            border: #3498db;
+        }
+        
+        .btn-warning:hover {
+            background-color: #2980b9;
+            color: #fff;
+            border: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div id="error" class="error container"></div>
+    <div class="customSpace">
+        <h1 class="text-center">Add Receipt Here</h1>
+        <div class="row mt-4">
+            <div class="col-md-4 col-sm-4 text-center">
+                <p>LR Date</p>
+                <p id="lrDate"></p>
+            </div>
+            <div class="col-md-4 col-sm-4 text-center">
+                <p>LR No. Prefix</p>
+                <p id="lrPrefix"></p>
+            </div>
+            <div class="col-md-4 col-sm-4 text-center">
+                <p>LR Number</p>
+                <p id="lrNumber"></p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container mt-4">
+        <form id="addReceiptForm" action="#" method="post">
+            <input type="hidden" name="id" required class="form-control" id="id">
+            <input type="hidden" name="date" required class="form-control" id="date">
+            <input type="hidden" name="prefix" required class="form-control" id="prefix">
+            <input type="hidden" name="receiptNo" required class="form-control" id="receiptNo">
+            <div class="row mb-3">
+                <label class="custom mb-2" for="consigner"><i class="icon fas fa-truck-moving"></i><span>Consigner Details</span></label>
+                <div id="consigner" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row mt-4">
+                        <div class="col-md-8 col-sm-8">
+                            <p id="consignerDetails">No Details Available. Click on the button to the side to add Consigner.</p>
+                            <input type="hidden" name="consignerInput" id="consignerInput">
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <i id="add" onclick="addConsigner()" class="text-success fas fa-plus-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="consignee"><i class="icon fas fa-truck-moving"></i><span>Consignee Details</span></label>
+                <div id="consignee" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row mt-4">
+                        <div class="col-md-8 col-sm-8">
+                            <input type="hidden" name="consigneeInput" id="consigneeInput">
+                            <p id="consigneeDetails">No Details Available. Click on the button to the side to add Consignee.</p>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <i id="add" onclick="addConsignee()" class="text-success fas fa-plus-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="product"><i class="icon fas fa-truck-moving"></i><span>Product Details</span></label>
+                <div id="product" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row mt-4">
+                        <div class="col-md-8 col-sm-8">
+                            <input type="hidden" name="productInput" id="productInput">
+                            <p id="productDetails">No Details Available. Click on the button to the side to add products.</p>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <i id="add" onclick="addProduct()" class="text-success fas fa-plus-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row mb-3">
+                <label class="custom mb-2" for="labourCharge"><i class="icon fas fa-people-carry"></i><span>Labour Charges</span></label>
+                <div id="labourCharge" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label for="labourTaxable" class="form-label">Taxable Amount</label>
+                            <input type="number" onkeyup="calculateLabourCharges()" class="form-control" name="labourTaxable" id="labourTaxable" placeholder="Enter Taxable Amount In Rupees" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="labourGst" class="form-label">GST In %</label>
+                            <input type="number" onkeyup="calculateLabourCharges()" class="form-control" name="labourGst" id="labourGst" placeholder="Enter GST In %" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="labourTotal" class="form-label">Amount</label>
+                            <input type="number" readonly class="form-control" id="labourTotal" name="labourTotal" placeholder="Enter In Rupees" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="loadingCharge"><i class="icon fas fa-truck-loading"></i><span>Loading Charges</span></label>
+                <div id="loadingCharge" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label for="loadingTaxable" class="form-label">Taxable Amount</label>
+                            <input type="number" onkeyup="calculateLoadingCharges()" class="form-control" name="loadingTaxable" id="loadingTaxable" placeholder="Enter Taxable Amount In Rupees" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="loadingGst" class="form-label">GST In %</label>
+                            <input type="number" onkeyup="calculateLoadingCharges()" class="form-control" name="loadingGst" id="loadingGst" placeholder="Enter GST In %" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="loadingTotal" class="form-label">Amount</label>
+                            <input type="number" class="form-control" name="loadingTotal" id="loadingTotal" placeholder="Enter In Rupees" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="UnloadingCharge"><i class="icon fas fa-person-booth"></i><span>Unloading Charges</span></label>
+                <div id="UnloadingCharge" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label for="UnloadingTaxable" class="form-label">Taxable Amount</label>
+                            <input type="number" onkeyup="calculateUnloadingCharges()" class="form-control" name="UnloadingTaxable" id="UnloadingTaxable" placeholder="Enter Taxable Amount In Rupees" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="UnloadingGst" class="form-label">GST In %</label>
+                            <input type="number" onkeyup="calculateUnloadingCharges()" class="form-control" name="UnloadingGst" id="UnloadingGst" placeholder="Enter GST In %" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="UnloadingTotal" class="form-label">Amount</label>
+                            <input type="number" class="form-control" name="UnloadingTotal" id="UnloadingTotal" placeholder="Enter In Rupees" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="PackagingCharge"><i class="icon fas fa-archive"></i><span>Packaging Charges</span></label>
+                <div id="PackagingCharge" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label for="PackagingTaxable" class="form-label">Taxable Amount</label>
+                            <input type="number" onkeyup="calculatePackagingCharges()" class="form-control" name="PackagingTaxable" id="PackagingTaxable" placeholder="Enter Taxable Amount In Rupees" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="PackagingGst" class="form-label">GST In %</label>
+                            <input type="number" onkeyup="calculatePackagingCharges()" class="form-control" name="PackagingGst" id="PackagingGst" placeholder="Enter GST In %" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="PackagingTotal" class="form-label">Amount</label>
+                            <input type="number" class="form-control" name="PackagingTotal" id="PackagingTotal" placeholder="Enter In Rupees" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="UnpackagingCharge"><i class="icon fas fa-box-open"></i><span>Unpackaging Charges</span></label>
+                <div id="UnpackagingCharge" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label for="UnpackagingTaxable" class="form-label">Taxable Amount</label>
+                            <input type="number" onkeyup="calculateUnpackagingCharges()" class="form-control" name="UnpackagingTaxable" id="UnpackagingTaxable" placeholder="Enter Taxable Amount In Rupees" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="UnpackagingGst" class="form-label">GST In %</label>
+                            <input type="number" onkeyup="calculateUnpackagingCharges()" class="form-control" name="UnpackagingGst" id="UnpackagingGst" placeholder="Enter GST In %" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="UnpackagingTotal" class="form-label">Amount</label>
+                            <input type="number" class="form-control" name="UnpackagingTotal" id="UnpackagingTotal" placeholder="Enter In Rupees" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="OtherCharge"><i class="icon fas fa-rupee-sign"></i><span>Other Charges</span></label>
+                <div id="OtherCharge" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <label for="OtherTaxable" class="form-label">Taxable Amount</label>
+                            <input type="number" onkeyup="calculateOtherCharges()" class="form-control" name="OtherTaxable" id="OtherTaxable" placeholder="Enter Taxable Amount In Rupees" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="OtherGst" class="form-label">GST In %</label>
+                            <input type="number" onkeyup="calculateOtherCharges()" class="form-control" name="OtherGst" id="OtherGst" placeholder="Enter GST In %" >
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="OtherTotal" class="form-label">Amount</label>
+                            <input type="number" class="form-control" name="OtherTotal" id="OtherTotal" placeholder="Enter In Rupees" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="row mb-3">
+                <label class="custom mb-2" for="dharmakanta"><i class="icon fas fa-truck-moving"></i><span>Dharmakanta Amount</span></label>
+                <div id="dharmakanta" class="mt-2 mb-3 col-md-12 col-sm-12">
+                    <input type="number" onkeyup="calculateTotalAmount()" class="form-control" name="dharmakantaAmt" id="dharmakantaAmt" placeholder="Enter In Rupees" >
+                </div>
+            </div> -->
+            <div class="row mb-3">
+                <label class="custom mb-2" for="total"><i class="icon fas fa-truck-moving"></i><span>Total Amount</span></label>
+                <div id="total" class="mt-2 mb-3 col-md-12 col-sm-12">
+                    <input required type="number" onchange="bindValue(this.value, this.id)" class="form-control" name="totalAmt" id="totalAmt" placeholder="Enter In Rupees">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="advance"><i class="icon fas fa-truck-moving"></i><span>Advance Amount</span></label>
+                <div id="advance" class="mt-2 mb-3 col-md-12 col-sm-12">
+                    <input required type="number" onkeyup="calculateTotalAmount()" onchange="bindValue(this.value, this.id)" name="advanceAmt" class="form-control" id="advanceAmt" placeholder="Enter In Rupees" >
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="payable"><i class="icon fas fa-truck-moving"></i><span>Payable Amount</span></label>
+                <div id="payable" class="mt-2 mb-3 col-md-12 col-sm-12">
+                    <input required type="number" class="form-control" id="payableAmt" name="payableAmt" placeholder="Enter In Rupees" readonly>
+                </div>
+            </div>
+            <!-- <div class="row mb-3">
+                <label class="custom mb-2" for="freightPaidBy"><i class="icon fas fa-rupee-sign"></i><span>Freight Paid By</span></label>
+                <div id="freightPaidBy" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <input class="form-check-input" name="freightPaidBy" type="radio" value="consigner" id="consigner" >
+                            <label for="consigner" class="form-label">Consigner</label>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <input class="form-check-input" name="freightPaidBy" type="radio" value="consignee" id="consignee" >
+                            <label for="consignee" class="form-label">consignee</label>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <input class="form-check-input" name="freightPaidBy" type="radio" value="agent" id="agent" >
+                            <label for="agent" class="form-label">Agent</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="gstPaidBy"><i class="icon far fa-money-bill-alt"></i><span>GST Paid By</span></label>
+                <div id="gstPaidBy" class="mb-3 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <input class="form-check-input" name="gstPaidBy" type="radio" value="consigner" id="consigner" >
+                            <label for="consigner" class="form-label">Consigner</label>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <input class="form-check-input" name="gstPaidBy" type="radio" value="consignee" id="consignee" >
+                            <label for="consignee" class="form-label">consignee</label>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <input class="form-check-input" name="gstPaidBy" type="radio" value="agent" id="agent" >
+                            <label for="agent" class="form-label">Agent</label>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row mb-3">
+                <label class="custom mb-2" for="transportDetails"><i class="icon far fa-money-bill-alt"></i><span>Transport Details</span></label>
+                <div class="col-md-12 col-sm-12">                    
+                    <div class="row mt-4">
+                        <div class="col-md-8 col-sm-8">
+                            <p id="transportDetails">No Details Available. Click on the button to the side to add Transport Details.</p>
+                            <input type="hidden" name="transportInput" id="transportInput">
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <i id="add" onclick="addTransport()" class="text-success fas fa-pencil-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="custom mb-2" for="productExtraDetails"><i class="icon fas fa-rupee-sign"></i><span>Other Details</span></label>
+                <div id="productExtraDetails" class="mb-3 col-md-12 col-sm-12">
+                    
+                    <div class="optedInsurance row mb-3 mt-2">
+                        <div class="mb-3 mb-3 col-md-6 col-sm-6">
+                            <label for="totalWeight">Total Weight</label>
+                            <input required type="text" class="form-control" id="totalWeight" name="totalWeight" placeholder="Enter Total Weight Of All Products" >
+                        </div>
+                        <div class="mb-3 mb-3 col-md-6 col-sm-6">
+                            <label for="totalBags">Total Bags</label>
+                            <input required type="text" class="form-control" id="totalBags" name="totalBags" placeholder="Enter Total Bags Of All Products" >
+                        </div>
+                        <div class="mb-3 mb-3 col-md-6 col-sm-6">
+                            <label for="totalFreight">Total Freight</label>
+                            <input required type="text" class="form-control" onchange="bindValue(this.value, this.id)" id="totalFreight" name="totalFreight" placeholder="Enter Total Freight Of All Products" >
+                        </div>
+                        <!-- <div class="mb-3 mb-3 col-md-6 col-sm-6">
+                            <label for="totalAdvance">Total Advance</label>
+                            <input type="text" class="form-control" id="totalAdvance" name="totalAdvance" placeholder="Enter Total Advance" >
+                        </div>
+                        <div class="mb-3 mb-3 col-md-6 col-sm-6">
+                            <label for="amountToBePaid">Amount To Be Paid</label>
+                            <input type="text" class="form-control" id="amountToBePaid" name="amountToBePaid" placeholder="Enter Amount To Be Paid">
+                        </div> -->
+                        <div class="mb-3 mb-3 col-md-6 col-sm-6">
+                            <label for="valueOfGoods">Value Of Goods</label>
+                            <input required type="text" class="form-control" onchange="bindValue(this.value, this.id)" id="valueOfGoods" name="valueOfGoods" placeholder="Enter Value Of Goods">
+                        </div>
+                        <div class="mb-3 mb-3 col-md-6 col-sm-6">
+                            <label for="receiptDate">Receipt Date</label>
+                            <input required type="date" class="form-control" id="receiptDate" name="receiptDate" placeholder="Enter Value Of Goods">
+                        </div>
+                        
+                    </div>
+                    <div class="row mb-3">
+                        <label class="custom mb-2" for="addressOfSouce"><i class="icon fas fa-map-marker-alt"></i><span>Address Of Source</span></label>
+                        <div class="mt-3 col-md-6 col-sm-6">
+                            <input required type="text" class="form-control" id="addressOfSource" name="addressOfSoruce" placeholder="Enter Address Of Source" >
+                        </div>
+                        <div class="mt-3 col-md-6 col-sm-6">
+                            <input class="form-check-input" onclick="setConsigner()" name="setConsignerAdd" type="checkbox" id="setConsignerAdd" >
+                            <label for="setConsignerAdd" class="form-label">Same As Consigner</label>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="custom mb-2" for="addressDel"><i class="icon fas fa-map-marker-alt"></i><span>Address Of Delivery</span></label>
+                        <div class="mt-3 col-md-6 col-sm-6">
+                            <input type="text" class="form-control" id="addressOfDelivery" name="addressOfDelivery" placeholder="Enter Address Of Delivery" >
+                        </div>
+                        <div class="mt-3 col-md-6 col-sm-6">
+                            <input class="form-check-input" onclick="setConsignee()" name="setConsigneeAdd" type="checkbox" id="setConsigneeAdd" >
+                            <label for="setConsigneeAdd" class="form-label">Same As Consignee</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 row mb-3">
+                        <label class="custom mb-2" for="demmurage"><i class="icon fas fa-scroll"></i><span>Terms And Conditions</span></label>
+                        <div class="mt-3 col-md-12 col-sm-12">
+                            <textarea readonly name="terms" id="" cols="30" rows="8">    1. This is an electronically generated lorry Receipt.
+    2. All disputes are subjected to Barpeta Jurisdiction.</textarea>
+                        </div>
+                        
+                    </div>
+                    <!-- <div class="mt-3 row mb-3">
+                        <label class="custom mb-2" for="demmurage"><i class="icon fas fa-file-signature"></i><span>Add Signature (Optional)</span></label>
+                        <div class="mt-3 col-md-12 col-sm-12">
+                            <canvas id="signature" width="300" height="100"></canvas>
+                            <img src="" id="signImage" alt="No Sign">
+                        </div>
+                    </div> -->
+                    
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-success btn-lg" id="addReceiptBtn" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row mb-3">
+            <div class="col-md-6 col-sm-6">
+                <button style="width: 100%;" disabled class="mt-3 btn btn-outline btn-warning" id="printBtn">Print</button>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <button style="width: 100%;" disabled class="mt-3 btn btn-outline btn-danger" id="downloadBtn">Download</button>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

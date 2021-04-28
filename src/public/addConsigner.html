@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Manage Consigner</title>
+    <link rel="stylesheet" href="./dist/fontawesome/all.min.css" />
+    <script src="./dist/fontawesome/all.min.js"></script>
+    <link href="./dist/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <script src="./dist/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="./renderer/renderrer.js"></script>
+    <link rel="stylesheet" href="./renderer.css">
+    <link href="./dist/datatables/vanilla-dataTables.min.css" rel="stylesheet" type="text/css">
+    <script src="./dist/datatables/vanilla-dataTables.min.js" type="text/javascript"></script>
+    <script src="./renderer/addConsigner.js"></script>
+</head>
+<body>
+    <div class="customSpace">
+        <h1 class="text-center text-white">All Consigners</h1>
+    </div>
+    <div class="mt-2 error container"></div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                <button onclick="addNewConsigner()" class="btn btn-success">Create A New Consigner</button>
+            </div>
+        </div>
+        <table id="example" class="display table table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Name</th>
+                    <th>GSTIN</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="consignerTbody">
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Name</th>
+                    <th>GSTIN</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</body>
+</html>
