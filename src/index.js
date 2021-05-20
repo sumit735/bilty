@@ -26,7 +26,7 @@ ipcMain.on('renderer', (evt, message) => {
     });
   
     // and load the index.html of the app.
-    addReceiptWindow.removeMenu();
+    // addReceiptWindow.removeMenu();
     addReceiptWindow.loadFile(path.join(__dirname, '/public/addReceipt.html'));
   }
   if(message == 'viewAllReceipts') {
@@ -321,7 +321,7 @@ ipcMain.on('viewReceiptDownload', (event, id) => {
   console.log('inside download');
   window_to_PDF = new BrowserWindow(
     {
-      show: false,
+      show: true,
       webPreferences: {
         nodeIntegration: true,
         nodeIntegrationInSubFrames: true,

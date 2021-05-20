@@ -10,11 +10,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             let productData = await getProductById(product.id);
             console.log('res is',productData);
             try {
-                const { id, productName, unit, packets } = productData[0];
+                const { id, productName, unit, packets, packetUnit } = productData[0];
                 document.getElementById('id').value = id ? id : '';
                 document.getElementById('name').value = productName ? productName : '';
                 document.getElementById('unit').value = unit ? unit : '';
                 document.getElementById('packets').value = packets ? packets : '';
+                document.getElementById('packetUnit').value = packetUnit ? packetUnit : '';
                 
             } catch(e) {
                 console.log(e);

@@ -52,8 +52,7 @@ const calculateTotalAndPayableAmount = (freight, advance) => {
 }
 
 const setConsignee = () => {
-  if (document.getElementById('setConsigneeAdd').checked) 
-  {
+  if (document.getElementById('setConsigneeAdd').checked) {
     try {
         // fetch consignee
         let consignee = JSON.parse(document.getElementById('consigneeInput').value);
@@ -94,13 +93,12 @@ const setConsignee = () => {
     }
     
   } else {
-    document.getElementById('addressOfDelivery').innerHTML = document.getElementById('consigneeInput').value;
+    document.getElementById('addressOfDelivery').innerHTML = '';
 
   }
 }
 const setConsigner = () => {
-  if (document.getElementById('setConsignerAdd').checked) 
-  {
+  if (document.getElementById('setConsignerAdd').checked) {
     try {
         // fetch consignee
         let consigner = JSON.parse(document.getElementById('consignerInput').value);
@@ -141,7 +139,7 @@ const setConsigner = () => {
     }
     
   } else {
-    document.getElementById('addressOfDelivery').innerHTML = document.getElementById('consigneeInput').value;
+    document.getElementById('addressOfSource').innerHTML = '';
 
   }
 }
@@ -166,6 +164,30 @@ const calculateFreightValueFromProduct = () => {
 
 }
 
+
+const validReceipt = async (receiptNumber) => {
+    let allReceipts = await getAllReceipts();
+    let op = allReceipts.filter(receipt => {
+        return parseInt(receipt.receiptNo) === parseInt(receiptNumber);
+    });
+    if(op.length == 1) {
+        const options = {
+            type: 'error',
+            buttons: ['Ok'],
+            defaultId: 0,
+            title: 'Invalid Receipt',
+            message: '',
+            detail: "This Receipt Number Already Exists. Please enter another Receipt Number",
+        };
+        
+        dialog.showMessageBox(null, options, (response, checkboxChecked) => {
+            console.log(response);
+            console.log(checkboxChecked);
+        });
+    }
+    // alert('receipt ', receiptNumber);
+
+}
 
 // * Element wise calculation part
 const bindValue = (value, id) => {

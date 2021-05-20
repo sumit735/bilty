@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     rows += "<td>"+ address +"</td>";
                     rows += "<td>"+ city +"</td>";
                     rows += "<td>"+ state +"</td>";
-                    rows += "<td>"+ phone +"</td>";
                     rows += `<td><a style='margin-right: 5%' class='btn btn-danger' onclick='deleteConsignerDb(${id})'><i class='far fa-trash-alt'></i></a><a class='btn btn-success' onclick='selectConsigner(${id})'><i class='far fa-check-circle'></i></a></td>`;
                     rows += "</tr>";
                     slno++;

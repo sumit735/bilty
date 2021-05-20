@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.log(result);
             let { 
                 addressOfDelivery, addressOfSoruce, advanceAmt, consigneeInput, consignerInput, payableAmt, freightTotal, productInput, 
-                totalBags, totalFreight, totalWeight, transportInput, valueOfGoods, receiptNo, receiptDate, prefix
+                totalBags, totalFreight, totalWeight, transportInput, valueOfGoods, receiptNo, receiptNumber, receiptDate, prefix
             } = result[0];
             consigneeInput = consigneeInput ? JSON.parse(consigneeInput) : '';
             consignerInput = consignerInput ? JSON.parse(consignerInput) : '';
             transportInput = transportInput ? JSON.parse(transportInput) : '';
-            document.getElementById('receiptNumber').innerHTML = prefix && receiptNo ? prefix+receiptNo.toString() : '';
+            document.getElementById('receiptNumber').innerHTML = prefix && receiptNumber ? prefix+receiptNumber.toString() : '';
             document.getElementById('date').innerHTML = receiptDate ? formatDate(receiptDate) : dateFormatter();
             document.getElementById('lorryNumber').innerHTML = transportInput ? transportInput.vehicleNumber.toUpperCase() : '';
             document.getElementById('source').innerHTML = addressOfSoruce ? addressOfSoruce : ''; //sorry a typo here
@@ -82,12 +82,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.log(result);
             let { 
                 addressOfDelivery, addressOfSoruce, advanceAmt, consigneeInput, consignerInput, payableAmt, freightTotal, productInput, 
-                totalBags, totalFreight, totalWeight, transportInput, valueOfGoods, receiptNo, receiptDate, prefix
+                totalBags, totalFreight, totalWeight, transportInput, valueOfGoods, receiptNo, receiptNumber, receiptDate, prefix
             } = result[0];
             consigneeInput = consigneeInput ? JSON.parse(consigneeInput) : '';
             consignerInput = consignerInput ? JSON.parse(consignerInput) : '';
             transportInput = transportInput ? JSON.parse(transportInput) : '';
-            document.getElementById('receiptNumber').innerHTML = prefix && receiptNo ? prefix+receiptNo.toString() : '';
+            document.getElementById('receiptNumber').innerHTML = prefix && receiptNumber ? prefix+receiptNo.toString() : '';
             document.getElementById('date').innerHTML = receiptDate ? formatDate(receiptDate) : dateFormatter();
             document.getElementById('lorryNumber').innerHTML = transportInput ? transportInput.vehicleNumber.toUpperCase() : '';
             document.getElementById('source').innerHTML = addressOfSoruce ? addressOfSoruce : ''; //sorry a typo here
@@ -142,12 +142,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.log(result);
             let { 
                 addressOfDelivery, addressOfSoruce, advanceAmt, consigneeInput, consignerInput, payableAmt, freightTotal, productInput, 
-                totalBags, totalFreight, totalWeight, transportInput, valueOfGoods, receiptNo, receiptDate, prefix
+                totalBags, totalFreight, totalWeight, transportInput, valueOfGoods, receiptNo, receiptNumber, receiptDate, prefix
             } = result[0];
+            console.log('test ', receiptNumber);
             consigneeInput = consigneeInput ? JSON.parse(consigneeInput) : '';
             consignerInput = consignerInput ? JSON.parse(consignerInput) : '';
             transportInput = transportInput ? JSON.parse(transportInput) : '';
-            document.getElementById('receiptNumber').innerHTML = prefix && receiptNo ? prefix+receiptNo.toString() : '';
+            document.getElementById('receiptNumber').innerHTML = prefix && receiptNumber ? prefix+receiptNumber.toString() : '';
             document.getElementById('date').innerHTML = receiptDate ? formatDate(receiptDate) : dateFormatter();
             document.getElementById('lorryNumber').innerHTML = transportInput ? transportInput.vehicleNumber.toUpperCase() : '';
             document.getElementById('source').innerHTML = addressOfSoruce ? addressOfSoruce : ''; //sorry a typo here

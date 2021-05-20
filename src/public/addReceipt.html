@@ -101,7 +101,7 @@
                 <p id="lrPrefix"></p>
             </div>
             <div class="col-md-4 col-sm-4 text-center">
-                <p>LR Number</p>
+                <p>Total Receipts</p>
                 <p id="lrNumber"></p>
             </div>
         </div>
@@ -377,6 +377,10 @@
                         <div class="mb-3 mb-3 col-md-6 col-sm-6">
                             <label for="receiptDate">Receipt Date</label>
                             <input required type="date" class="form-control" id="receiptDate" name="receiptDate" placeholder="Enter Value Of Goods">
+                        </div>
+                        <div class="mb-3 mb-3 col-md-6 col-sm-6">
+                            <label for="receiptDate">Receipt Number</label>
+                            <input required type="text" onchange="validReceipt(this.value)" class="form-control" id="receiptNumber" value="" name="receiptNumber" placeholder="Enter Receipt Number">
                         </div>
                         
                     </div>

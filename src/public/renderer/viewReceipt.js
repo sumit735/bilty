@@ -58,12 +58,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let slno = 1;
                 allProducts.map(Product => {
                     console.log(Product);
-                    let { id, consigneeInput, consignerInput, receiptDate, receiptNo, prefix, totalFreight } = Product;
+                    let { id, consigneeInput, consignerInput, receiptDate, receiptNo, receiptNumber, prefix, totalFreight } = Product;
                     consigneeInput = JSON.parse(consigneeInput);
                     consignerInput = JSON.parse(consignerInput)
                     rows += `<tr id=row${id}>`;
                     rows += "<td>"+ slno +"</td>";
-                    rows += "<td>"+ prefix+receiptNo +"</td>";
+                    rows += "<td>"+ prefix+receiptNumber +"</td>";
                     rows += "<td>"+ consignerInput.consignerName +"</td>";
                     rows += "<td>"+ consigneeInput.consigneeName +"</td>";
                     rows += "<td>"+ totalFreight +"</td>";
