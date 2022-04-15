@@ -52,7 +52,8 @@
     "electron-squirrel-startup": "^1.0.0",
     "level": "^6.0.1",
     "leveldown": "^5.6.0",
-    "levelup": "^4.4.0"
+    "levelup": "^4.4.0",
+    "moment": "^2.29.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",

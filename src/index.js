@@ -262,7 +262,91 @@ ipcMain.on('transportDetails', (event, transportPayload) => {
   addReceiptWindow.webContents.send('transportDetails', transportPayload);
 });
 
-// ! TODO - Download part
+// ! TODO - preview part
+ipcMain.on('preview', (event, id) => {
+  console.log('inside preview');
+  window_to_PDF = new BrowserWindow(
+    {
+      show: true,
+      webPreferences: {
+        nodeIntegration: true,
+        nodeIntegrationInSubFrames: true,
+        enableRemoteModule: true,
+        nodeIntegrationInWorker: true,
+        contextIsolation: false,
+        sandbox: false
+      }
+    }
+  );//to just open the browser in background { show: false }
+  window_to_PDF.loadFile(path.join(__dirname, '/public/receiptPrint.html')); //give the file link you want to display
+  function pdfSettings() {
+    var paperSizeArray = ["A4"];
+    var option = {
+      landscape: false,
+      marginsType: 0,
+      printBackground: false,
+      printSelectionOnly: false,
+      pageSize: paperSizeArray[0],
+    };
+    return option;
+  }
+  window_to_PDF.webContents.on('did-finish-load', async function () {
+    window_to_PDF.webContents.send('pdfInit', id);
+    console.log('loaded. now print');
+  });
+  
+});
+ipcMain.on('previewJson', (event, jsonData) => {
+  console.log('inside preview', typeof jsonData);
+  if( typeof jsonData === 'object') {
+    window_to_PDF = new BrowserWindow(
+      {
+        show: true,
+        webPreferences: {
+          nodeIntegration: true,
+          nodeIntegrationInSubFrames: true,
+          enableRemoteModule: true,
+          nodeIntegrationInWorker: true,
+          contextIsolation: false,
+          sandbox: false
+        }
+      }
+    );//to just open the browser in background { show: false }
+    window_to_PDF.loadFile(path.join(__dirname, '/public/receiptPrint.html')); //give the file link you want to display
+    function pdfSettings() {
+      var paperSizeArray = ["A4"];
+      var option = {
+        landscape: false,
+        marginsType: 0,
+        printBackground: false,
+        printSelectionOnly: false,
+        pageSize: paperSizeArray[0],
+      };
+      return option;
+    }
+    window_to_PDF.webContents.on('did-finish-load', async function () {
+      window_to_PDF.webContents.send('pdfInitJson', jsonData);
+      console.log('loaded. now print');
+    });
+  } else {
+    const options = {
+      type: 'error',
+      buttons: ['Ok'],
+      defaultId: 0,
+      title: 'Failed To Preview',
+      message: '',
+      detail: "Sorry! Something went wrong, please contact your administrator",
+    };
+    
+    dialog.showMessageBox(null, options, (response, checkboxChecked) => {
+      console.log(response);
+      console.log(checkboxChecked);
+    });
+  }
+   
+  
+});
+
 ipcMain.on('download', (event, id) => {
   console.log('inside download');
   window_to_PDF = new BrowserWindow(
@@ -317,11 +401,12 @@ ipcMain.on('download', (event, id) => {
   });
   
 });
+
 ipcMain.on('viewReceiptDownload', (event, id) => {
   console.log('inside download');
   window_to_PDF = new BrowserWindow(
     {
-      show: true,
+      show: false,
       webPreferences: {
         nodeIntegration: true,
         nodeIntegrationInSubFrames: true,

@@ -557,6 +557,26 @@ const deleteReceipt = (id) => {
   });
 }
 
+// delete batch data
+
+const deleteReceipts = () => {
+  console.log('delete all receipt triggered ');
+  
+  return new Promise( (resolve, reject) => {
+    try {
+      dbOpen();
+      db.batch().del('receipt').write(() => {
+        resolve('all receipt cleared');
+      });
+      dbClose();
+    } catch(e) {
+      dbClose();
+      reject(
+        {message: 'Failed To Perform Operation. Please Contact Developer', errType: 'insertionError', errCode: 5000, error: e}
+      );
+    }
+  });
+}
 
 module.exports = {
   getCompanyDetails,
@@ -579,6 +599,7 @@ module.exports = {
   getNextReceiptCount,
   getAllReceipts,
   getReceiptById,
-  deleteReceipt
+  deleteReceipt,
+  deleteReceipts
 }
 

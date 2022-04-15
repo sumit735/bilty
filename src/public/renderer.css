@@ -5,7 +5,7 @@
 .customSpace {
     width: 100%;
     height: 10rem;
-    background-color: #079992;
+    background-color: #0a3d62;
     border-radius: 0 0 5px 5px;
 }
 #add {
@@ -19,15 +19,18 @@ h1 {
 }
 .custom {
     padding: 8px;
-    background: #079992;
+    background: #0a3d62;
     color: #fff;
     font-size: 1.3rem;
     border-radius: 5px;
 }
 .btn-success {
-    background-color: #1dd1a1;
+    background-color: #0a3d62;
+}
+.btn-success:focus {
+    background-color: #3c6382;
 }
 
 .btn-success:hover {
-    background-color: #10ac84;
+    background-color: #3c6382;
 }

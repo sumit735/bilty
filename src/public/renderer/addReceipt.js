@@ -276,10 +276,39 @@ const calculateTotalAmount = () => {
     console.log('ca',calculatedOp);
     document.getElementById('payableAmt').value = calculatedOp.payableAmt;
 }
+function serialize (data) {
+	let obj = {};
+	for (let [key, value] of data) {
+		if (obj[key] !== undefined) {
+			if (!Array.isArray(obj[key])) {
+				obj[key] = [obj[key]];
+			}
+			obj[key].push(value);
+		} else {
+			obj[key] = value;
+		}
+	}
+	return obj;
+}
+const preview = (id) => {
+    console.log('preview invoked')
+    if(!id) {
+        let addReceiptForm = document.getElementById('addReceiptForm');
+        // Get all field data from the form
+        let data = new FormData(addReceiptForm);
 
+        // Convert to an object
+        let formObj = serialize(data);
+        console.log({formObj})
+        ipcRenderer.send('previewJson', formObj);
+    } else {
+        ipcRenderer.send('preview', id);
+    }
+}
 const download = (id) => {
     ipcRenderer.send('download', id);
 }
+
 const printPage = (id) => {
     console.log('print Invoked');
     ipcRenderer.send('print', id);
@@ -287,6 +316,9 @@ const printPage = (id) => {
  
 // setup company db
 document.addEventListener('DOMContentLoaded', async () => {
+    // init preview button
+    let previewBtn = document.getElementById('previewBtn');
+    previewBtn.setAttribute('onclick', `preview()`);
     inputProducts = [];
     try {
         // get company data from the beginning
@@ -459,11 +491,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             let downloadBtn = document.getElementById('downloadBtn');
             const notyf = new Notyf();
             if(addReceiptResponse.errCode == 2000) {
+                console.log(addReceiptResponse);
                 notyf.success('New Receipt Created Successfully.');
                 addBtn.setAttribute('disabled', true);
                 addBtn.style.display = 'none';
                 printBtn.removeAttribute('disabled');
                 downloadBtn.removeAttribute('disabled');
+                // * TODO- PDF Preview
+                previewBtn.setAttribute('onclick', `preview(${receiptDetails.id})`);
                 // * TODO- PDF Generate & Download
                 downloadBtn.setAttribute('onclick', `download(${receiptDetails.id})`);
                 // * TODO- Print Feature
